@@ -1,0 +1,59 @@
+  ^         viel range, wenig schaden
+ /1\        "Archer"
+/I##\
+
+  o          mittlere range, viel damage auf längere zeit
+ /1\        "Inferno"
+/###\
+
+  |         wenig range, viel schaden
+ /1\        "Soldier"
+/###\
+
+  ❆         verlangsamt, wenig schaden
+ /1\        "Ice"
+/###\
+
+  🜂 ☀       alle richtungen, wenig range
+ /1\
+/###\
+
+  ⚡         schnelle geschosse, nicht oft schießen, bullets werden weitergeleitet, mittlere Range, wenig schaden
+ /1\        "Tesla"
+/###\
+
+
+
+
+
+
+
+Perks:
+i- kann nur unsichtbare angreifen
+I- kann alle algreifen
+
+b- greift nur "MOABS" an
+B- greift "MOARBS" noch scheller an +Attack Speed
+
+s- erhöht attack speed
+S- erhöht attack speed noch mehr
+
+d- erhöht den Damage
+D- erhöht den Damage noch mehr
+
+m- man bekommt mehr Money pro Kill
+M- man bekommt noch mehr Money pro killy
+
+n- erhöht die Reichweite
+N- erhöht die Reichweite noch mehr
+
+
+jede 3 level bekommt man ein perk slot dazu
+level 1 bis 3(exklusive): _##
+level 3 bis 6(exklusive): __#
+ab level 6: ___
+
+
+  ^
+ /1\
+/I##\
