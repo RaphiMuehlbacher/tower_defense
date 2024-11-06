@@ -1,5 +1,7 @@
+use std::fmt::{Display};
 use image::GenericImageView;
 
+#[derive(Debug)]
 pub struct Tower {
     tower_type: TowerType,
     position: Position,
@@ -10,6 +12,7 @@ pub struct Tower {
     attack_speed: usize,
     range: usize,
 }
+
 
 impl Tower {
     pub fn new_archer(position: Position) -> Self {
@@ -24,13 +27,6 @@ impl Tower {
         let width = width as usize;
         let height = height as usize;
 
-        for pixel in frame.chunks_exact_mut(4) {
-            pixel[0] = 0;
-            pixel[1] = 0;
-            pixel[2] = 0;
-            pixel[3] = 255;
-        }
-
         // Load the original image and get its dimensions
         let image = image::open("assets/1.png").unwrap();
         let rgba_image = image.to_rgba8();
@@ -43,15 +39,16 @@ impl Tower {
         // Determine the scaling factor to fit the image in the window
         let scale_x = width as f32 / orig_image_width as f32;
         let scale_y = height as f32 / orig_image_height as f32;
-        let scale = scale_x.min(scale_y) / 10.0; // Use the smaller scale to maintain aspect ratio
+        let scale = scale_x.min(scale_y) / 4.0;
 
         // Calculate the scaled image dimensions
         let scaled_width = (orig_image_width as f32 * scale) as usize;
         let scaled_height = (orig_image_height as f32 * scale) as usize;
 
         // Center the scaled image
-        let start_x = (width / 2) - (scaled_width / 2);
-        let start_y = (height / 2) - (scaled_height / 2);
+        let (center_x, center_y) = self.position.to_pixel(width, height);
+        let start_x = center_x.saturating_sub(scaled_width / 2);
+        let start_y = center_y.saturating_sub(scaled_height / 2);
 
         // Draw the scaled image by mapping scaled coordinates back to the original image
         for y in 0..scaled_height {
@@ -75,6 +72,7 @@ impl Tower {
 }
 
 
+#[derive(Debug)]
 enum TowerType {
     Archer,
     Inferno,
@@ -83,6 +81,7 @@ enum TowerType {
     Ice,
 }
 
+#[derive(Debug)]
 pub struct Position {
     x: usize,
     y: usize,
@@ -93,6 +92,11 @@ impl Position {
         Position { x, y }
     }
 
-    pub fn to_pixel(&self, width: u32, height: u32) -> (u32, u32) { (1, 2) }
+    pub fn to_pixel(&self, width: usize, height: usize) -> (usize, usize) {
+        let x = self.x as f32 / 100.0 * width as f32;
+        let y = self.y as f32 / 100.0 * height as f32;
+
+        (x as usize, y as usize)
+    }
 }
 

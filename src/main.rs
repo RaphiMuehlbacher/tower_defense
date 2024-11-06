@@ -12,9 +12,9 @@ use winit::{
 
 use winit::event::{ElementState, MouseButton};
 use crate::game::Game;
+use crate::tower::{Position, Tower};
 
 const INITIAL_WIDTH: u32 = 640;
-
 const INITIAL_HEIGHT: u32 = 360;
 
 fn main() {
@@ -23,6 +23,7 @@ fn main() {
     let window = WindowBuilder::new()
         .with_title("Tower Defense")
         .with_inner_size(LogicalSize::new(INITIAL_WIDTH, INITIAL_HEIGHT))
+        .with_min_inner_size(LogicalSize::new(100, 100))
         .build(&event_loop)
         .unwrap();
 
@@ -36,7 +37,7 @@ fn main() {
     // Animation timer
     let mut cursor_position = (0.0, 0.0);
 
-    let game = Game::new();
+    let mut game = Game::new();
 
     event_loop.run(move |event, elwt| {
         elwt.set_control_flow(ControlFlow::Poll);
@@ -50,7 +51,13 @@ fn main() {
                 event: WindowEvent::MouseInput { button, state, .. }, ..
             } => {
                 if button == MouseButton::Left && state == ElementState::Pressed {
-                    println!("Left click at position: {:?}", cursor_position);
+                    let size = window.inner_size();
+
+                    let x_percent = (cursor_position.0 / size.width as f64) * 100.0;
+                    let y_percent = (cursor_position.1 / size.height as f64) * 100.0;
+                    
+                    let tower = Tower::new_archer(Position::new(x_percent as usize, y_percent as usize));
+                    game.add_tower(tower);
                 }
             }
             Event::WindowEvent { event, .. } => match event {
